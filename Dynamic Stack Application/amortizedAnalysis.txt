@@ -1,0 +1,114 @@
+1. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty
+array which starts out at capacity 8, assuming that the array will double in capacity each time a new item is
+added to an already full dynamic array? As N (ie. the number of pushes) grows large, under this strategy for
+resizing, what is the big-oh complexity for a push?
+
+Answer: 
+
+Cost of 8 up until the capacity of 8 is reached (O(1) cost per push)
+Total 8
+Then add 8 + 1 for the doubling the capacity of the array (O(n) cost per capacity doubling)
+Total 17
+Then add 7 until we reach 16 (O(1) cost per push)
+Total 24
+Then add 16 + 1 for the doubling the capacity of the array (O(n) cost per capacity doubling)
+Total 41
+Then add 15 until we reach 32 (O(1) cost per push)
+Total 56
+
+O(1)+ = 56 Total Cost Units
+Big O Complexity = O(n)
+
+2. How many cost units are spent in the entire process of performing 32 consecutive push operations on an empty
+array which starts out at capacity 8, assuming that the array will grow by a constant 2 spaces each time a new
+item is added to an already full dynamic array? As N (ie. the number of pushes) grows large, under this strategy
+for resizing, what is the big-oh complexity for a push?
+
+Answer:
+
+Cost of 8 up until the capacity of 8 is reached (O(1) cost per push)
+Total 8
+
+Then add 8 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 17
+
+Cost of 1 up until the capacity of 10 is reached (O(1) cost per push)
+Total 18
+
+Then add 10 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 29
+
+Cost of 1 up until the capacity of 12 is reached (O(1) cost per push)
+Total 30
+
+Then add 12 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 43
+
+Cost of 1 up until the capacity of 14 is reached (O(1) cost per push)
+Total 44
+
+Then add 14 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 59
+
+Cost of 1 up until the capacity of 16 is reached (O(1) cost per push)
+Total 60
+
+Then add 16 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 77
+
+Cost of 1 up until the capacity of 18 is reached (O(1) cost per push)
+Total 78
+
+Then add 18 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 96
+
+Cost of 1 up until the capacity of 20 is reached (O(1) cost per push)
+Total 97
+
+Then add 20 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 118
+
+Cost of 1 up until the capacity of 22 is reached (O(1) cost per push)
+Total 119
+
+Then add 22 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 142
+
+Cost of 1 up until the capacity of 24 is reached (O(1) cost per push)
+Total 143
+
+Then add 24 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 168
+
+Cost of 1 up until the capacity of 26 is reached (O(1) cost per push)
+Total 169
+
+Then add 26 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 196
+
+Cost of 1 up until the capacity of 28 is reached (O(1) cost per push)
+Total 197
+
+Then add 28 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 226
+
+Cost of 1 up until the capacity of 30 is reached (O(1) cost per push)
+Total 227
+
+Then add 30 + 1 for increasing the capacity of the array by 2 (O(n) cost per capacity doubling)
+Total 258
+
+Cost of 1 up until the capacity of 32 is reached (O(1) cost per push)
+Total 259
+
+O(1)+ = 259 Total Cost Units
+Big O Complexity = O(n)
+
+3.Suppose that a dynamic array stack doubles its capacity when it is full, and shrinks (on Pop only) its capacity by
+half when the array is half full or less. Can you devise a sequence of N push() and pop() operations which will
+result in poor performance (O(N^2) total cost)? How might you adjust the array's shrinking policy to avoid this?
+(Hint: You may assume that the initial capacity of the array is N/2.)
+
+If you were to to do push and then a pop operation after the array was already half full this would cause both capacity
+resizing algorithms to fire which would be O(N^2). The shrinking operation should occur sometime before the array is full
+to reduce the number of times need to be copied into the new array.
