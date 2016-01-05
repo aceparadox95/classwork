@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	<link rel="stylesheet" href="css/ol.css" type="text/css">
+	<script src="js/ol.js" type="text/javascript"></script>
+	
+</head>
+<body>
+	<header class="masthead">
+	  <div class="container-fluid">
+	  <div class="row">
+		<div class="col-sm-12">
+		  <h1>
+			<a href="#">The Wonderful Open Source Mapping World of OpenLayers 3</a>
+			<p class="lead">A How-To Guide by Ryan Cosby</p>
+		  </h1>
+		</div>
+	  </div>
+	  </div>
+	</header>
+<!-- Static Navbar Found at http://www.bootply.com/69848-->
+	<div id="nav">
+		<div class="navbar navbar-default navbar-static">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#home"><span class="glyphicon glyphicon-home"></span></a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  <ul class="nav navbar-nav">
+				<li class="active"><a data-toggle="tab" href="#home">Introduction<span class="sr-only">(current)</span></a></li>
+				<li><a href="#menu1" data-toggle="tab">Hook it up</a></li>
+				<li><a href="#menu2" data-toggle="tab">Create</a></li>
+				<li><a href="#menu3" data-toggle="tab">Enhance</a></li>
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</div>
+	</div>
+	<div class="container">
+		<div class="tab-content">
+			<div id="home" class="tab-pane fade in active">
+			  <h3 align="center">Introduction</h3>
+			  <h4>A little context...</h4>
+			  <p>OpenLayers isn't just about being able to make a map online. There are many ways to accomplish that task. OpenLayers is in a set of geographic tools working together to create a geographic information system. Geographic information systems are often referred to as simply GIS. The power of GIS isn't so much being able to see lines and shapes in a map, but rather your ability to <em>interact with</em> and <em>analyze</em> geographic information in a mapping environment.</p>
+			  <p>For example, a common geographic task that we each have encountered... <strong>Where is a good place to eat nearby?</strong> Without GIS this task becomes quite difficult particularly in unfamiliar areas. Without prior knowledge a person may just start walking and hoping for the best. GIS makes this task a little more simple by putting your surroundings in context. Your mobile device knows your general location with it's on-board GPS (global position system) and their are a variety of geographic databases with an inventory of all the restaurants within a city. GIS combines the restaurant location and a map together by placing the restaurants in a known coordinate system. Even at that point, a map showing just the restaurant locations and not necessarily all of the resturant names isn't very helpful. Because GIS combines a database with a geographic feature in the map(in this case a restaurant) we now can learn whatever we need to about that feature by simply clicking on it. </p>
+			  <h4>Geographic Lingo and Data Types</h4>
+			  <p>Similar to the computer science realm, professionals in the GIS world talk a little different. The list could go on forever, but some important terms are noted here for clarity:</p>
+			  <table class="table table-primary">
+				<tr>
+					<td width="90%"><strong>Layers</strong> - Layers are a geographic dataset overlayed on top of a map. Suppose we wanted to build a map of downtown New York... some important layers we would include in that map are streets, buildings, sidewalks, parks, etc. The most important thing to pay attention with layers is order. In GIS this typically means we put points, lines, and polygon layers in a map in that order. Any other arrangement and important information gets covered up.</td>
+					<td><img src="assets/campbell-fig01_012.jpg" height="200px" width="200px"></td>
+				</tr>
+				<tr>
+					<td width=70% colspan=2><strong>Coordinate Systems and Projections</strong> - Coordinate Systems are essential to understand in GIS. They are essentially a mathematical system of placing geographic ordered-pairs on a flat surface. Projections are using to force the curvature of the earth into that flat surface. In GIS there is two particular usages of coordinate systems and projections to be aware of. The first is the coordinate system of the map itself, and the second is the coordinate system of the layers that are being placed onto the map. As a general rule online maps tend to perform better when the layer's coordinate systems match the maps. The most common coordinate system in web mapping is called WGS 84 Web Mercator. This has become the go-to coordinate system because its inherit ability to receive latitude and longitude pairs as coordinates.(Learn more about Web Mercator <a href="https://en.wikipedia.org/wiki/Web_Mercator" target ="_new">here<a>)</td>
+				</tr>
+				<tr>
+					<td width=70% colspan=2><strong>Vector Datasets</strong> - Vector data is any type of graphic that can is represented by a group of coordinate pairs at its vertices. For example a line graphic in Microsoft Word is a vector. Vectors are rendered by the computer using its inherit coordinates, continuing with the Microsoft World example we could say that a certain line vector has a beginning coordinate point at 1 inch from the top of the page and 1 inch from the left of the page and and ending point at one inch from the bottom of the page and one inch from the right of the page. Similarly in GIS a line feature representing a street has a point at the beginning of the street and a point at the end of the street. A polygon feature is simply a line feature that begins and ends at the same point.</td>
+				</tr>
+				<tr>
+					<td  width="70%"><strong>Tile/Raster Datasets</strong> - Raster datasets are datasets whose most fundamental unit is a pixel. The most common raster dataset in GIS is aerial imagery. Aerial imagery on Google Maps typically represents a 1 foot square on the ground in the real world with one pixel in the imagery, calculating the average color for all of the items within the square foot. Raster data by nature is much larger because each pixel value takes up memory. Vector datasets on the other hand just need store the coordinate pairs for each vertex of a line or polygon.  </td>
+                    <td><img src="assets/data_models_buffer.gif" height="200px" width="300px"></td>
+				</tr>
+			  </table>
+			</div>
+			<div id="menu1" class="tab-pane fade">
+				<h3 align="center">Connecting to the OpenLayers 3 API</h3>
+				<h4>Where's the API Key?</h4>
+				<p>Because OpenLayers is open source there is no need to for an API key, however, some of the geographic data that can be accessed by Open Layers may require an API key. A good example of this is when an OpenLayers map frame is using Google Imagery.</p>
+				<h4>Two Ways to Get the Job Done</h4>
+				<p>Like most API's you have two choices...you can either link directly to the source code hosted on the API site or you can download the source code and host it yourself. To download the source code yourself you visit the following site: <a href="http://openlayers.org/download/" target="_new">openlayers.org/download/</a></p>
+				<img src="assets/downloadlink.jpg" align="middle" height="50%" width="50%">
+				<p>One of the great things about hosting the source code is you don't have to rely on a 3rd party web hosting server to be up and running. The disadvantage to this approach, on the other hand, is that you have to remember to download the most recent API update periodically for your websites to make sure they remain current.</p>
+				<p>Once you have downloaded the code (it's a small file) you need to link to OpenLayer's Javascript and CSS libraries in you html's header file like so:</p>
+				<pre class="prettyprint">
+&lthead&gt
+  &ltlink rel="stylesheet" href="yourpathtothefiles/ol.css" type="text/css"&gt
+  &ltscript src="yourpathtothefiles/ol.js" type="text/javascript"&gt&lt/script&gt
+&lt/head&gt </pre>
+
+				<p>or Link to OpenLayers 3 JS and CSS files hosted on OpenLayers directly like so:</p>
+				<pre class="prettyprint">
+&lthead&gt
+  &ltlink rel="stylesheet" href="http://openlayers.org/en/v3.11.2/css/ol.css" type="text/css"&gt
+  &ltscript src="http://openlayers.org/en/v3.11.2/build/ol.js" type="text/javascript"&gt&lt/script&gt
+&lt/head&gt </pre> 
+			</div>
+			<div id="menu2" class="tab-pane fade">
+				<h3 align="center">Create a Map</h3>
+				<p>So now that you are hooked up to the OpenLayers API your next couple steps are this:</p>
+				<ol>
+				<li>Create a <code>div</code> element with "map" for an id and class name. OpenLayers relies on the class name of "map" to set certain CSS properties</li>
+				<li>Create a map object and fill it with wonderful layers like so:</li>
+				</ol>
+				<pre class="prettyprint">
+var map = new ol.Map({//A new map object is created
+	target: 'map', //This target value points back to the original name of the div in your html and is the first argument passed into a map object
+	layers: [ //The second argument is the wonderful layers we've been waiting for. In this case it's grabbing raster satellite imagery from MapQuest
+	  new ol.layer.Tile({
+		source: new ol.source.MapQuest({layer: 'sat'})
+	  })
+	],
+	view: new ol.View({//The last argument in the map object is the view object which specifies the initial extent and location of the map
+	  center: ol.proj.fromLonLat([37.41, 8.82]),//The map is projected and centered on latitude and longitude coordinates specified
+	  zoom: 4
+	})
+});</pre>
+				<div class="row">
+					<div class="col-sm-8">
+						<div id="map" class="map"></div>
+					</div>
+					<div class="col-sm-4">
+						<p>Yeah! You have created a map of Africa. OpenLayer maps come pre-packaged with mouse wheel zooming capabilities and a button showing the credits for the Imagery data.Now let's dig a little deeper and make something a little more meaningful to you. Looking at the map object we created above we see that there is is a few options we can work with: a mapquest basemap layer, a default extent, and a default zoom level. We can learn more about other basemaps available in the official API documentation <a href="http://openlayers.org/en/v3.11.2/apidoc/ol.source.MapQuest.html" target="_new">here</a>. Let's change our default extents by looking up a latitude and longitude coordinate pair. One method to do this is to find a place on Google maps you like and right click and select "What's Here". This method will display the latitude and longitude coordinates of the location you clicked. Lastly, we know that zoom level 4 was zoomed our pretty far so let's increase it to zoom in a little closer</p>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-8">
+						<div id="coolermap" class="map"></div>
+					</div>
+					<div class="col-sm-4">
+						<p>In the map to the left we've modified the <code>layer</code>parameter to 'osm' which means Open Street Map. We've updated the <code>center</code> parameter with lat/lon coordinates of Reser Stadium and changed the default <code>zoom</code> level to 18. Lastly, we changed the <code>target</code> value to our new <code>div</code> id: 'coolermap'. This is just scratching the surface of small modifications that can be made to the OpenLayers map object properties to make powerful maps</p>
+					</div>
+				</div>
+			
+			</div>
+			<div id="menu3" class="tab-pane fade">
+			  <h3 align="center">Enhancing Your Map with Layers</h3>
+			  <h4>Where do I find GIS Layers?</h4>
+			  <p>The most common GIS Data layer format is shapefiles. Shapefiles can be found through a simple Google search. For example if you wanted to find a shapefile for all of the rivers in the state of Oregon your search terms might be "Oregon Rivers Shapefile". This search would point you to the Oregon State GIS Office. The word shapefile is a bit deceiving because a shapefile is really a collection of separate files working together to render geographic data. When you download a shapefile it is typically a zip directory containing the following files (I will note the important ones):</p>
+			  <ul>
+				<li>.shp - This file holds the coordinate geometry information that will render your shapes (be they polygons, lines, or points)</li>
+				<li>.prj - This file is a text file holding the coordinate system projection information in a long string. As a general rule the majority of the shapefiles you will find on the internet from municipal and state sources will not be in the Web Mercator Projection. We'll deal with this issue in just a moment</li>
+				<li>.dbf - This file stores all of the associated data for each of your geometry features. For example, if your shapefile was point layer for each City in Oregon it would hold information like the City's Name, Population, and Year Founded. A DBF file is basically a table. It serves as the database for the shapefile</li>
+				<li>.shx - This file is an index of each shape geometry. It is used to render your shapes more quickly and to avoid rendering shapes that are outside the map view.
+				</li>
+			  </ul>
+			  <p>You can learn more about the shapefile format <a href="https://en.wikipedia.org/wiki/Shapefile" target="_new">here</a></p>
+			  <h4>Converting the Layer to a Format that OpenLayers Can Understand</h4>
+			  <p>To reduce complexity the powers that be at OpenLayers determined that dealing with each individual file that compose a shapefile independently wouldn't be fun. I agree with this assessment. OpenLayers accepts geographic data that is reduced to a single file. Among the more common layer file types that OpenLayers accepts are GeoJSON, esriJSON, GPX(GPS Points), and KML(Google Earth Files). Fortunately for us there are several online tools that can convert shapefiles to these well known formats. For those who are not comfortable with Shapefiles in the first place it may make more sense to just create a KML file inside Google Earth. For the example in the next section I converted a restaurants shapefile to a KML file. One of the inherit benefits of using a KML is that OpenLayers will automatically use the styles and fonts that you use in your KML file. Additionally in the process of converting your data to the KML format the projection of your data gets set to Web Mercator. This projection conversion with cause your layers to overlay correctly on the map. That being said there is nothing wrong with the other layer formats, they just require additional steps to overlay correctly.</p>
+			  <h4>Overlaying a Layer onto the Map</h4>
+			  <p>In the map object creation below we have set the <code>target</code> option each to the <code>div</code> element with a id of 'vectormap'. I have kept most of the other parameters the same accept I have added another layer to my layer list: the layer called <code>vectorLayer</code>. I have also changed the <code>center</code> of the map view to focus over downtown Boise, ID. </p>
+<pre class="prettyprint">
+var map3 = new ol.Map({
+	target: 'vectormap',
+	layers: [
+	  new ol.layer.Tile({
+		source: new ol.source.MapQuest({layer: 'sat'})
+	  }),
+	  vectorLayer
+	],
+	view: new ol.View({
+	  center: ol.proj.fromLonLat([-116.205211, 43.614823]),
+	  projection: 'EPSG:3857', //This is the EPSG code for the Web Mercator projection
+	  zoom: 18
+	})
+});</pre>
+				<p>In the <code>vectorLayer</code> layer object I have set my vector layer to point at my restaurants KML file. The vector layer now reads the kml file directly along with its corresponding styles and labels and overlays it onto the map.</p>
+<pre class="prettyprint">
+var vectorLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+    url: 'assets/restaurants2.kml',
+    format: new ol.format.KML()
+  })
+});</pre>
+			  <div id="vectormap" class="map"></div>
+			  <h4>Conclusion</h4>
+			  <p>From the small steps that were taken to create this map we can begin to see the power of GIS. OpenLayers has a <a href="http://openlayers.org/en/v3.10.1/apidoc/index.html" target="_new">number of tools</a> that will also allow you to modify and add new features to the map directly. Over time you can build very large datasets that reveal geographic trends. For example police agencies are using this type of information to keep track of where crimes occur the most frequently in their communities. This how-to guide was created to simple help get the user started and understand some of the geographic terms that are not readily understood by the general public. In the end, data is data, geographic data is just arranged a little differently!</p>
+			</div>
+		</div>
+	</div>
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/custom.js"></script>
+
+<link rel="stylesheet" href="css/custom.css"> 
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-theme.min.css">	
+	
+</body>
+</html>

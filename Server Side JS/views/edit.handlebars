@@ -1,0 +1,30 @@
+<div class="container">
+	<h2 align="center">Workout Tracker</h2>
+	<div class="panel panel-primary">
+	<div class="panel-heading">Edit Workout Activity</div>
+		<div class="panel-body">
+			<form method="get" role="form" action="/update">
+				{{#editrec}}
+				<div class ="form-group">
+					<label for="workName">Exercise Name:</label>
+					<input class="form-control" type="text" name="wName" id="workName" value={{name}}>
+					<label for="workReps"># of Reps:</label>
+					<input class="form-control" type="number" name="wReps" id="workReps" value={{reps}}>
+					<label for="workWeight">Weight</label>
+					<input class="form-control" type="number" name="wWeight" id="workWeight" value={{weight}}>
+					<label for="workDate">Date Completed</label>
+					<input class="form-control" type="date" name="wDate" id="workDate" value={{date}}>
+					<div class="radio-inline">
+						<label><input type="radio" name="wWeightType" id="workWeightType" value=1>lbs</label>
+					</div>
+					<div class="radio-inline">
+							<label><input type="radio" name="wWeightType" id="workWeightType" value=0>kg</label>
+					</div>
+					<input type="hidden" name="wID" id="recId" value={{id}}>
+				</div>
+				{{/editrec}}
+				<input type="submit">
+			</form>
+		</div>
+	</div>
+</div>

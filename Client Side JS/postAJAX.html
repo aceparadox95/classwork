@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>HTTP Bin Test</title>
+	<script src="binScript.js"></script>
+  </head>
+  <body>
+  <form method="post">
+	<fieldset>
+		<legend>Submit Data Via POST</legend>
+		<label>Enter a Zip Code:
+			<input type="number" id="zip" size="5" maxlength="5">
+		</label>
+		<br>
+		<label>Enter a First Name:
+			<input type="text" id="first" size="30" maxlength="50">
+		</label>
+		<label>Enter a Last Name:
+			<input type="text" id="last" size="30" maxlength="50">
+		</label>
+		<br>
+		<label>
+		<input type="submit" id="urlSubmit">
+		</label>
+	</fieldset>
+  </form>
+  <span id="firstOut"></span>
+  <span id="lastOut"></span>
+  <span id="zipOut"></span><br>
+  </body>
+</html>

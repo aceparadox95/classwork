@@ -1,0 +1,70 @@
+<div class="container">
+	<h2 align="center">Workout Tracker</h2>
+	<div class="panel panel-primary">
+	<div class="panel-heading">Log Workout Activity</div>
+		<div class="panel-body">
+			<form method="get" role="form" action="/insert">
+				<div class ="form-group">
+					<label for="workName">Exercise Name:</label>
+					<input class="form-control" type="text" name="wName" id="workName">
+					<label for="workReps"># of Reps:</label>
+					<input class="form-control" type="number" name="wReps" id="workReps">
+					<label for="workWeight">Weight</label>
+					<input class="form-control" type="number" name="wWeight" id="workWeight">
+					<label for="workDate">Date Completed</label>
+					<input class="form-control" type="date" name="wDate" id="workDate">
+					<div class="radio-inline">
+						<label><input type="radio" name="wWeightType" id="workWeightType" value=1 checked>lbs</label>
+					</div>
+					<div class="radio-inline">
+						<label><input type="radio" name="wWeightType" id="workWeightType" value=0>kg</label>
+					</div>
+				</div>
+				<input type="submit">
+			</form>
+		</div>
+	</div>
+	<table class="table table-bordered table-responsive">
+		<thead>
+			<tr>
+				<th>Exercise Name</th>
+				<th># of Reps</th>
+				<th>Weight</th>
+				<th>Date Completed</th>
+				<th>Weight Type</th>
+				<th>Delete</th>
+				<th>Edit</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each resultstbl}}
+				<tr>
+					<td>{{this.name}}</td>
+					<td>{{this.reps}}</td>
+					<td>{{this.weight}}</td>
+					<td>{{this.date}}</td>
+					<td>{{this.lbs}}</td>
+					<td>
+						<form method="get" role="form" action="/delete">
+							<input type="hidden" name="delID" value={{this.id}}>
+							<input type="submit" value="Delete">
+						</form>
+					</td>
+					<td>
+						<form method="get" role="form" action="/edit">
+							<input type="hidden" name="edID" value={{this.id}}>
+							<input type="submit" value="Edit">
+						</form>
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	<h3 align="center">{{results}}</h3>
+	<form method="get" role="form" action="/reset-table">
+		<input type="submit" value="Reset Table">
+	</form>
+</div>
+
+ 
+

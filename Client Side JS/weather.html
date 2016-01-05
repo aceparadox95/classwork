@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Open Weather Map</title>
+	<script src="weatherscript.js"></script>
+  </head>
+  <body>
+  <form method="get">
+	<fieldset>
+		<legend>Submit Data Via GET</legend>
+		<label>Enter a Zip Code:
+			<input type="number" id="zip" size="5" maxlength="5">
+		</label>
+		<br>
+		<p>OR</p>
+		<label>Enter a City Name:
+			<input type="text" id="city" size="30" maxlength="50">
+		</label>
+		<label>and State:
+			<input type="text" id="state" size="2" maxlength="2">
+		</label>
+		<br>
+		<label>
+		<input type="submit" id="urlSubmit">
+		</label>
+	</fieldset>
+  </form>
+  <span id="cityDisp"></span><br>
+  <span id="temp"></span><br>
+  <span id="humidity"></span><br>
+  </body>
+</html>
