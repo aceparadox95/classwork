@@ -1,0 +1,271 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href = "Semantic-UI-CSS-master/semantic.min.css">
+        <script src="Semantic-UI-CSS-master/semantic.min.js"></script>
+    </head>
+    <style type="text/css">
+        body {
+        background-color: #FFFFFF;
+        }
+        .ui.menu .item img.logo {
+        margin-right: 1.5em;
+        }
+        .main.container {
+        margin-top: 7em;
+        }
+        .wireframe {
+        margin-top: 2em;
+        }
+        .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+        }
+        .anchor{
+          display: block;
+          height: 61px; /*same height as header*/
+          margin-top: -61px; /*same height as header*/
+          visibility: hidden;   
+        }
+    </style>
+<body>
+  <div class="ui fixed sticky inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+          <div class="ui mini image">
+              <img src="images/Firebase_16-logo.png"/>
+          </div>
+        Google Firebase for Web: A How-To Guide
+      </a>
+      <a href="#" class="item">Home</a>
+      <div class="ui simple dropdown item">
+        Site Navigation<i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="#intro">Introduction</a>
+          <a class="item" href="#codeenvironment">Setting Up Your Code Environment</a>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            Firebase Services
+            <div class="menu">
+              <a class="item" href="#realtime">Realtime Database</a>
+              <a class="item" href="#authentication">Authentication</a>
+              <a class="item" href="#storage">Storage</a>
+              <a class="item" href="#hosting">Hosting</a>
+            </div>
+          </div>
+          <a class="item" href="#conclusion">Conclusion</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui main text container">
+    <h1 class="ui center aligned header">Google Firebase for Web: A How-To Guide</h1>
+    <h3 class="ui center aligned header">By Ryan Cosby</h3>
+    <h5 class="ui center aligned header">CS 496 - Fall 2016</h5>
+    <span class="anchor" id="intro"></span>
+    <div class="ui raised segment">
+        <div class="ui large header">Introduction</div>
+        <p>Perhaps the most important part of an understanding how to use a new tool or library, is to know the answer to this question: <b>Why use it in the first place?</b>. In my opinion, Google Firebase’s product offerings are not exactly clear at first glance when visiting their website. Simply put, Google Firebase is an out-of-the-box app deployment platform, requiring a Google account. It comes with a number of account plans with increased functionality and scalability depending on how much money you are willing to spend. Firebase comes pre-canned to integrate with the following platforms: iOS, Android, and for Web. For this How-to Guide we will focus primarily on the Web/Mobile Version.</p>
+        <p>It helps to think of Firebase as an App Command Center acting with the confines of a specific App <strong>Project</strong>. Most modern web apps use some combination of a database, authentication, and storage services to render app pages and content. Traditionally, an app developer has had to pull in these different services from individual third party providers. One of Firebases's most distinguishing features is the fact that these <a href="#services">services</a> come pre-packaged with the Firebase Instance. This is a big time saver, but on the other hand, it also limits you to working within parameters that Google has set for its services. As a developer you also have two primary methods to interact with these services: through Firebase's Web Console and (of course) with the code in your application. Google's documentation for code interaction with each of these Firebase services is actually quite detailed. For this reason I will provide links directly to their documentation in this How-to Guide. I will dive in a little deeper into their Console functionality, as much of the details of this functionality is left to the user to figure out. The user is also left to themselves to determine the best way to set up their development environment.</p>
+        <p></p>
+    </div>
+      <span class="anchor" id="codeenvironment"></span>
+      <div  class="ui segment">
+          <div class="ui large header">Setting Up Your Code Environment</div>
+          <div class="ui segment">
+                <div class="ui header">Project Directory Structure</div>
+                <img class="ui bordered rounded image" src="images/ProjectDirectory.JPG"\>
+                <br>
+                <p>The primary item that makes an application a "Firebase" application is the Firebase.json file. In addition to the firebase.json file, the database-rules.json is tied directly to the Realtime Database Service that was created when your firebase was generated. Similarly, the storage.rules file is tied directly to the Storage service. Outside of these files, the app directory structure can follow the same pattern that you would use in a web application.</p>
+                <h5>Connecting your Application to the Firebase</h5>
+                <img class="ui bordered rounded image" src="images/Initialize.JPG"\>
+                <br>
+                <p>Lastly you insert the code snippet above into the &lt;head&gt; of your HTML document. Within the snippet you specify a connection to your Realtime DB, Authentication, and Storage Service URLs. Once this connection is made your application now has access to the full Firebase library.</p> 
+          </div>
+          <div class="ui segment">
+                <div class="ui header">Firebase CLI</div>
+              <p>Firebase comes with a Command Line Interface(CLI), which makes it possible to control some of your Firebase properties directory from your command line interface of choice. The command line interface is installed using the node package manager: <span style="background-color: lightgrey"><code>npm -g install firebase-tools</code></p></span>. To get started with Firebase, you really only need to understand the following command line commands (executed from the current directory of your application):
+                <ul>
+                    <li>
+                        <span style="background-color: lightgrey"><code>firebase init</code></p></span>
+                        This command creates the firebase.json file with its default settings.
+                    </li>
+                    <li>
+                        <span style="background-color: lightgrey"><code>firebase serve</code></p></span>
+                        This command creates a localhost instance of your application on port 5000 (http://localhost:5000). This allows you to do local testing.
+                    </li>
+                    <li>
+                        <span style="background-color: lightgrey"><code>firebase deploy</code></p></span>
+                        This will deploy your application to the hosting URL determined by your Firebase Settings.
+                    </li>
+                </ul>
+          </div>
+          <div class="ui segment">
+                <div class="ui header">Firebase JSON File</div>
+                <p>The Firebase JSON file controls the settings/rules of each of your connected Firebase services:</p>
+                <img class="ui bordered centered rounded image" src="images/firebaseJSON.JPG"\>
+                <br>
+              <p>Pay particular attention to the Hosting service rules. When the firebase.json is first created the <b>public</b> hosting setting is set to "app". This is essentially saying that the "app" folder in the project directory is what will be deployed to the hosting service when you deploy your application. This default setting is troublesome, particularly if your project directory doesn't have an "app" folder to begin with. For this reason many in the Firebase Community have set the <b>public</b> hosting directory to "./". This essentially tells the Firebase application to push everything from your app's root directory to the hosting service. In the <b>ignore</b> setting you can specify which files you don't want to get pushed to the service. Naturally, an app developer wouldn't want to push the actual "firebase.json" file to the live version of their app for all the world to see (and hack) <i class="smile icon"></i>. The <a href="#realtime">database</a> and storage service <a href="#storage">security rules</a> will be covered in more detail in their respective sections below in this document.</p>
+          </div>
+      </div>
+      <span class="anchor" id="services"></span>
+      <div class="ui raised segment">
+      <div class="ui large header">Firebase Services</div>
+        <div class="ui center aligned equal width four column grid">
+            <div class="column">
+                <a href="#realtime"><i class="orange large circular database link icon"></i></a>
+                <h5 class="ui header">Realtime Database</h5>
+            </div>
+            <div class="column">
+                <a href="#authentication"><i class="red large circular lock link icon"></i></a>
+                <h5 class="ui header">Authentication</h5>
+            </div>
+            <div class="column">
+                <a href="#storage"><i class="green large circular Archive link icon"></i></a>
+                <h5 class="ui header">Storage</h5>
+            </div>
+            <div class="column">
+                <a href="#hosting"><i class="blue large circular world link icon"></i></a>
+                <h5 class="ui header">Hosting</h5>
+            </div>
+        </div>
+      </div>
+      <span class="anchor" id="realtime"></span>
+      <div class="ui segment">
+          <a class="ui orange ribbon label" style="font-size: 16px"> <i class="white circular database icon"></i>Realtime Database</a>
+          <div class="ui header"><a href="https://firebase.google.com/docs/database/web/start" target="new">Code Documentation</a></div>
+          <p>Database is accessed in client-side JavaScript file by calling the <code style="background-color: lightgrey">firebase.database()</code> object.</p>
+          <div class="ui segment">
+                <div class="ui header">Console Interface</div>
+                <div class="ui small header">Accessing and Updating Data</div>
+                <img class="ui bordered rounded centered large image" src="images/RealTimeDB_Data.JPG"\>
+                <br>
+                <p>The image above shows the web interface for the back end of the Realtime Database from the Firebase Console. In this particular example, you are looking at the back end of a messaging application. The data is formatted into JSON trees. Each node of the tree can be expanded to show the sub properties of each object. Over the following sequences of images you can see how an new "message" is can be added to this database.</p>
+                <img class="ui bordered rounded centered large image" src="images/RealTimeDB_DataAddtoSubTree.JPG"\>
+                <br>
+                <p>Hovering over each node item gives the option to "add child"</p>
+                <img class="ui bordered rounded centered large image" src="images/RealTimeDB_DataAddtoAddValue.JPG"\>
+                <br>
+                <p>We a new "message" to the message collection by adding a child, and then giving that child sub properties of "name" and "text".</p>
+                <img class="ui bordered rounded centered large image" src="images/RealTimeDB_DataNewValueAdded.JPG"\>
+                <br>
+                <p>A new message is added to the database. The "Realtime" property of the database allows you see these changes instantaneously in your application as soon as they are changed in the database (without requiring a refresh of the page). The Realtime Database has a pre-built "listener" that identifies anytime a database object is changed and will render the change in your application automatically.</p>
+                <p>The Realtime Database also allows you to upload your own JSON files using the settings symbol (three vertical dots) in the top right corner of the application to populate the database with your own data. This would be a massive time saver if say, for example, you wanted to migrate data from another database platform into the Firebase database application.</p>
+                <div class="ui small header">Changing Database Rules</div>
+                <img class="ui bordered rounded centered large image" src="images/RealTimeDB_Rules.JPG"\>
+                <br>
+                <p>Here were can see the database rules as they appear in the database-rules.json file in our app directory. With each new deployment these rules get updated based on what changes have been made in the JSON file. You can also change the rules directly in this interface, but it should be noted that you need to make sure those changes get propogated to your database-rules.json file, or you'll end up overwriting the work you've done on the next deployment. The way the rules are currently configured it only allows authenticated users to read and write to your database. Changing the read and write values to <code>true</code> would open up your database to the world (bad idea).</p>
+                <p>Lastly, the "Usage" tab in the console displays line graphs showing how much bandwidth in bytes that your database is using in the past 24 hours.</p>
+          </div>
+      </div>
+      <span class="anchor" id="authentication"></span>
+      <div class="ui segment">
+          <a class="ui red ribbon label" style="font-size: 16px"> <i class="white circular lock icon"></i>Authentication</a>
+          <div class="ui header"><a href="https://firebase.google.com/docs/auth/web/manage-users" target="new">Code Documentation</a></div>
+          <p>Authentication properties are accessed in client-side JavaScript file by calling the <code style="background-color: lightgrey">firebase.auth()</code> object.</p>
+          <div class="ui segment">
+            <div class="ui header">Console Interface</div>
+            <div class="ui small header">User List and Adding Users</div>
+            <img class="ui bordered rounded centered large image" src="images/USER_List.JPG"\>
+            <br>
+            <p>The Firebase Console for its Authentication Service allows you to view all of your users in a list. As you hover over each user you can see what sign-in method they are using as well as the date of their last sign-in. From this console you can also delete/or disable their account. You can also trigger a password reset email to be sent to the user. This would be a valuable feature particularly if this was a user that wanted to call into a help line and reset their password with customer service over the phone manually.</p>
+            <div class="ui small header">Automated Emails for Password/Username Recovery</div>
+            <img class="ui bordered rounded centered large image" src="images/USER_PasswordReset.JPG"\>
+            <br>
+            <p>For any of your app users that have a email/password "sign-in method" (not Google or Facebook login). You can initiate a password email for them and customize the format of those emails directly in the console. Google Firebase will automatically throw user properties into the email body for those properties that are tagged (example: the <code style="background-color: lightgrey">%EMAIL%</code> property above). The other properties available to embed in the email are: Display Name (users display name), App Name, New Email (the email the users wants to change to on their account), and Link (reset link)</p>
+            <img class="ui bordered rounded centered large image" src="images/USER_PasswordResetConsoletrigger.JPG"\>
+            <br>
+            <p>Sending out the "Reset Password" request to a specific user from the console</p>
+            <img class="ui bordered rounded centered large image" src="images/USER_PasswordResetEmail.JPG"\>
+            <br>
+            <p>User receives the password reset link in their email</p>
+            <img class="ui bordered rounded centered medium image" src="images/USER_PasswordResetForm.JPG"\>
+            <br>
+            <p>User is forwarded to temporary form where they can reset their password</p>
+            <p>As an app developer this is wonderful service, as many of the pains that would occur from building your own user account management system can be avoided. This is undoubtedly one of Firebase's most valuable features.</p>
+            <div class="ui small header">Enabling Sign-In Methods</div>
+            <img class="ui bordered rounded centered large image" src="images/USER_SignInMethodList.JPG"\>
+            <br>
+            <p>The last part of the Firebase Authentication Service console functionality is the ability to authorize different sign-in methods. As you hover over each of the services above you can turn the switch on or off to enable or disable a certain method. It should be noted that just because you enabled the login on the backend doesnt mean that your front-end will adapt to allow different sign-in methods. In fact the Firebase Documentation goes through several examples on how to build forms on the front-end to accept username/password inputs from the various sign-in methods. That being said, the front-end wouldn't work if the back-end wasn't enabled in the first place.</p>
+          </div>
+      </div>
+      <span class="anchor" id="storage"></span>
+      <div class="ui segment">
+          <a class="ui green ribbon label" style="font-size: 16px"> <i class="white circular archive icon"></i>Storage</a>
+          <div class="ui header"><a href="https://firebase.google.com/docs/storage/web/start" target="new">Code Documentation</a></div>
+          <p>Storage properties are accessed in the client-side JavaScript by a call to the <code style="background-color: lightgrey">firebase.storage()</code> object.</p>
+          <div class="ui segment">
+                <div class="ui header">Console Interface</div>
+                <div class="ui small header">Viewing and Deleting Users Cloud Storage Files</div>
+                <img class="ui bordered rounded centered large image" src="images/Storage_Upload.JPG"\>
+                <br>
+                <img class="ui bordered rounded centered large image" src="images/Storage_FileMetadata.JPG"\>
+                <br>
+                <p>Firebase's Storage Service acts like a Cloud Storage Drive. Not much different than some of the more popular cloud storage services like Dropbox or or Google Drive. By enabling the Storage service you are creating a cloud storage "bucket" as Google as termed it. In the example above the application is funneling all of the users file uploads to a folder that is using the User's ID in the database as a the folder filename. From the Firebase Console you can also manually upload files to your users file directories. The console would be primarily used as an administrator to upload files that would be shared or accessed by your entire user base. For this intended use you can select any of the folders within the console and generate the file's unique folder URL. This URL can be only be accessed from the client-side JavaScript code via the Firebase API. This is intentional, it makes your files more secure and prevents hackers from learning the directory structure of your Storage Service. Noticeably missing from this functionality is the ability to see how much of your space storage space is being used.  In the free Firebase Plan you have a cap of 5 GB for storage space.</p>
+                <div class="ui small header">Security Rules</div>
+                <img class="ui bordered rounded centered large image" src="images/Storage_Rules.JPG"\>
+                <br>
+                <p>To crank up the security a little further you can change your Storage Service's <a href="https://firebase.google.com/docs/storage/security/start">security rules</a> directly in the Firebase console. These same security rules can be written in a text file in your project directory structure, which comes across with each new deployment of your app. In the example above, the security rules are set to allow an authenticated user to only save and read files to/from their own directory.</p>
+          </div>
+      </div>
+      <span class="anchor" id="hosting"></span>
+      <div class="ui segment">
+          <a class="ui blue ribbon label" style="font-size: 16px"> <i class="white circular world icon"></i>Hosting</a>
+          <div class="ui header"><a href="https://firebase.google.com/docs/hosting/quickstart" target="new">Usage Documentation</a></div>
+          <p>Noticeably different than other Firebase Services, the Hosting service is not manageable from code. It is administrative service that can only be accessed via the Firebase Console or CLI within your project directory.</p>
+          <div class="ui segment">
+                <div class="ui header">Console Interface</div>
+                <div class="ui small header">Managing App Deploys</div>
+                <img class="ui bordered rounded centered large image" src="images/Hosting_Deploys.JPG"\>
+                <br>
+                <p>Firebase Rollback Feature</p>
+                <img class="ui bordered rounded centered large image" src="images/Hosting_Rollback.JPG"\>
+                <br>
+                <p>In the Firebase Console you will see a listing of all of your previous App Deploys (initiated by a <code style="background-color: lightgrey">firebase deploy</code> in the CLI), indicating who initiated the deployment and on what date it occured. This is particularly helpful for tracking down bugs as you can isolate a bug to a particular version of your app. As you hover over each deploy you also have the ability to "rollback" the live version of your application to a previous version of your application. The "Usage" tab in the console displays line graphs showing how much bandwidth in bytes that your application has used in the past 24 hours.</p>
+                <div class="ui small header">Deploying a Node.js Server-Side App</div>
+              <p>If your heart is set on deploying a Server-Side NodeJS app and have it run directly from Firebase's Server, <b>you're out of luck</b>. This fact is not immediately clear in the Firebase documentation, which is why it is noted here. One of Firebase's bragging points is that it is built to run entirely client-side, which they say is noticeably faster than Server-Based applications. That being said, the files that you deploy to hosting service need to be entirely <b>static</b>. Essentially they put the burden of Firebase storage and database transactions on the speed of their user's internet service. For lovers of Node.js, you are not entirely out of luck. Firebase offers two SDKs: <a href="https://firebase.google.com/docs/reference/node/">Node.js(client)</a> for deploying client-side apps, and <a href="https://firebase.google.com/docs/reference/admin/node/">Node.js(admin)</a> for deploy server-side apps <b>from your own server (NOT Firebase's server)</b>. Nevertheless, it is a potential deal-breaker for app developers who are looking for an all-in-one database/server-side hosting/storage/authentication application. Coming from someone who has been using the Heroku Platform to deploy applications, this is a major drawback. Heroku will deploy your server-side Node.js apps to an AWS server with a simple CLI command. By forcing your application to be client-side all of the dynamic page rendering has to be done primarily by manipulating the DOM on the fly, rather than using a templating system.</p>
+          </div>
+      </div>
+        <span class="anchor" id="conclusion"></span>
+        <div class="ui raised segment">
+            <div class="ui large header">Conclusion</div>
+            <p>Google Firebase's development platform is attractive to app developers who want to get an app up and running quickly. The fact that you get a database, user management system/authentication, storage, and hosting capabilities all bundled together is a major time-saver. The purpose of this How-To Guide was to address Google's gap in documentation in the following areas:</p>
+            <ul>
+                <li>The Relationship between your local App Project Directory and Coding Environment to the back end Firebase Services</li>
+                <li>Understanding and Using the Firebase Console as an App Administrator</li>
+                <li>Understanding the limitations of the Firebase Services, particularly its hosting service</li>
+            </ul>
+            <p>As noted in the introduction the Firebase JavaScript interface is well-documented and users are provided numerous samples and a well organized SDK interface. This guide should help fill in the gap on how all of the components of the platform work together to deploy your application.</p>
+        </div>
+  </div>
+  <div class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+      <div class="ui stackable inverted divided grid">
+        <div class="six wide column">
+            <h4 class="ui inverted header"><a href="#intro">Introduction</a></h4>
+            <h4 class="ui inverted header"><a href="#codeenvironment">Setting up Your Code Environment</a></h4>
+            <h4 class="ui inverted header"><a href="#services">Firebase Services</a></h4>
+          <div class="ui inverted link list">
+            <a href="#realtime" class="item">Realtime Database</a>
+            <a href="#authentication" class="item">Authentication</a>
+            <a href="#storage" class="item">Storage</a>
+            <a href="#hosting" class="item">Hosting</a>
+          </div>
+          <h4 class="ui inverted header"><a href="#conclusion">Conclusion</a></h4>
+        </div>
+        <div class="ten wide column">
+          <h4 class="ui inverted header">Google Firebase for Web: A How-To Guide</h4>
+          <p>Ryan Cosby | CS 496</p>
+        </div>
+      </div>
+      <div class="ui inverted section divider"></div>
+      <div class="ui horizontal inverted small divided link list">
+        <a class="item" href="http://semantic-ui.com/" target="new">Semantic UI Web Design</a>
+        <a class="item" href="https://firebase.google.com/" target="new">Logo and Images Clipped from <b>Google Firebase</b></a>
+        <a class="item" href="mailto:cosbyr@oregonstate.edu">Contact Me</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+</html>
